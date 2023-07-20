@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoChat App </title>
+    <script defer src="http://localhost:8000/socket.io/socket.io.js"></script>
+    <script defer src="js/client.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav>
+        <img class="logo" src="images/chat.jpg" alt="">
+        <h1>Welcome to DoChat app</h1>
+    </nav>
+    <div class="main">
+        <div class="box">
+            <div class="heading">
+                <img src="images/icon.png" class="peopleIcon">
+                <h3 class="users-count"></h3>
+                <h3>Peoples</h3>
+            </div>
+            <div class="peoples"></div>
+        </div>
+        <div class="container"></div>
+            
+        <div class="send">
+            <form action="#" id="send-container">
+                <input type="text" name="messageInp" id="messageInp">
+                <button class="btn" type="submit"><img class="sendImg" src="images/send.png"></button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
