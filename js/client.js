@@ -7,10 +7,11 @@ const peoplesContainer = document.querySelector(".peoples");
 const users_count = document.querySelector(".users-count");
 var audio = new Audio('notification.mp3')
 
+// To take user's name
 const name = prompt("Enter your name")
-console.log(name);
 socket.emit('new-user-joined', name);
 
+// To append messages sent or recive in the text box container
 const append = (message, position) => {
     const messageElement = document.createElement('div');
     const timeElement = document.createElement('div');
@@ -32,12 +33,13 @@ const append = (message, position) => {
     }
     messageContainer.append(messageElement);
 
-
+    // To get message notification
     if (position == 'left') {
         audio.play();
     }
 }
 
+// Listen when submit event fire 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const message = messageInput.value;
@@ -46,18 +48,22 @@ form.addEventListener('submit', (e) => {
     messageInput.value = '';
 })
 
+// To send user joined the chat message
 socket.on('user-joined', name => {
     append(`${name} joined the chat`, 'center');
 });
 
+// To recieve message from other users
 socket.on('recieve', data => {
     append(`${data.name}: ${data.message}`, 'left');
 });
 
+// To send user left the chat message
 socket.on('left', name => {
     append(`${name} left the chat`, 'center');
 });
 
+// To show all the available users in the chat
 socket.on('user-list', users => {
     peoplesContainer.innerHTML="";
     users_arr = Object.values(users);
@@ -66,5 +72,6 @@ socket.on('user-list', users => {
         p.innerText = users_arr[i];
         peoplesContainer.appendChild(p);
     }
+    // To show number of users available
     users_count.innerHTML = users_arr.length;
 });
