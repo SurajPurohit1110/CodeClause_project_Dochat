@@ -1,17 +1,16 @@
 const socket = io('http://127.0.0.1:8000');
 
+// Get DOM elements in respective Js variables
 const form = document.getElementById('send-container');
 const messageInput = document.getElementById('messageInp');
 const messageContainer = document.querySelector(".container");
 const peoplesContainer = document.querySelector(".peoples");
 const users_count = document.querySelector(".users-count");
+
+// Audio that will play to give notification of new messages
 var audio = new Audio('notification.mp3')
 
-// To take user's name
-const name = prompt("Enter your name")
-socket.emit('new-user-joined', name);
-
-// To append messages sent or recive in the text box container
+// Function to append messages sent or recive in the text box container
 const append = (message, position) => {
     const messageElement = document.createElement('div');
     const timeElement = document.createElement('div');
@@ -39,26 +38,30 @@ const append = (message, position) => {
     }
 }
 
+// To ask new user's name and let the server know
+const name = prompt("Enter your name")
+socket.emit('new-user-joined', name);
+
 // Listen when submit event fire 
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); // page will not reload when submit event fire
     const message = messageInput.value;
     append(`You: ${message}`, 'right');
     socket.emit('send', message);
     messageInput.value = '';
 })
 
-// To send user joined the chat message
+// To send user joined the chat message to others from server
 socket.on('user-joined', name => {
     append(`${name} joined the chat`, 'center');
 });
 
-// To recieve message from other users
+// To recieve message from server
 socket.on('recieve', data => {
     append(`${data.name}: ${data.message}`, 'left');
 });
 
-// To send user left the chat message
+// To send user left the chat message to all the active users from server
 socket.on('left', name => {
     append(`${name} left the chat`, 'center');
 });
